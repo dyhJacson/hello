@@ -1,4 +1,4 @@
-# vuetakeaway
+# vuetake
 
 > A Vue.js project
 
