@@ -11,14 +11,18 @@
                  icon="clear"
                  placeholder='请输入用户名'
                  required
-                 @click-icon="username =''" />
+                 @click-icon="username =''"
+                 :error-message="userNameErrorMsg" />
       <van-field v-model="password"
                  type="password"
                  label="密码"
                  placeholder="请输入密码"
-                 required />
+                 required
+                 :error-message="passwordErrorMsg" />
       <div class="register-button">
         <van-button type="primary"
+                    @click="registerAction"
+                    :loading="openLoading"
                     size="large">马上注册</van-button>
       </div>
     </div>
@@ -26,18 +30,71 @@
 </template>
 
 <script>
+import axios from 'axios'
+import url from '@/serviceAPI.config.js'
+import { Toast } from 'vant'
 export default {
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      openLoading: false, // 是否开启用户的Loading
+      userNameErrorMsg: '', // 当用户出现错误时的提示信息
+      passwordErrorMsg: '' // 当密码出现错误时的提示信息
     }
   },
   methods: {
     goBack () {
       this.$router.go(-1)
+    },
+    axiosRegisterUser () {
+      this.openLoading = true
+      axios({
+        url: url.registerUser,
+        method: 'post',
+        data: {
+          userName: this.username,
+          password: this.password
+        }
+      })
+        .then(response => {
+          console.log(response)
+          if (response.data.code === 200) {
+            Toast.success('注册成功')
+            this.$router.push('/')
+          } else {
+            console.log(response.data.message)
+            Toast.fail('注册失败')
+            this.openLoading = false
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          Toast.fail('注册失败' + error)
+          this.openLoading = false
+        })
+    },
+    checkForm () {
+      let isOk = true
+      if (this.username.length < 5) {
+        this.userNameErrorMsg = '用户名不能少于5位'
+        isOk = false
+      } else {
+        this.userNameErrorMsg = ''
+      }
+      if (this.password.length < 6) {
+        this.passwordErrorMsg = '密码不能少于6位'
+        isOk = false
+      } else {
+        this.passwordErrorMsg = ''
+      }
+      return isOk
+    },
+    registerAction () {
+      this.checkForm() && this.axiosRegisterUser()
     }
   }
+
 }
 
 </script>
