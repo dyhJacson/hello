@@ -12,7 +12,13 @@ import {
   Lazyload,
   List,
   Field,
-  NavBar
+  NavBar,
+  Tab,
+  Tabs,
+  PullRefresh,
+  Tabbar,
+  TabbarItem,
+  Stepper
 } from 'vant'
 
 Vue.use(Button)
@@ -24,6 +30,12 @@ Vue.use(Button)
   .use(List)
   .use(Field)
   .use(NavBar)
+  .use(Tab)
+  .use(Tabs)
+  .use(PullRefresh)
+  .use(Tabbar)
+  .use(TabbarItem)
+  .use(Stepper)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

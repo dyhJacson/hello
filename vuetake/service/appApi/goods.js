@@ -111,10 +111,14 @@ router.get('/getCategoryList', async ctx => {
 
 router.post('/getCategorySubList', async ctx => {
   try {
-    let cateoryId = ctx.request.body.categoryId
+    console.log('getCategorySubList' + ctx.request.body)
+    let categoryId = ctx.request.body.categoryId
     // let cateoryId=1
     const CategorySub = mongoose.model('CategorySub')
-    let result = await CategorySub.find({ MALL_CATEGORY_ID: cateoryId }).exec()
+    let result = await CategorySub.find({
+      MALL_CATEGORY_ID: categoryId
+    }).exec()
+    console.log('111111' + result)
     ctx.body = { code: 200, message: result }
   } catch (error) {
     ctx.body = { code: 500, message: error }

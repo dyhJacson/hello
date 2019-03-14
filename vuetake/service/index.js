@@ -15,7 +15,7 @@ router.use('/goods', goods.routes())
 app.use(cors())
 app.use(bodyParser())
 
-//加载路由中间件
+// 加载路由中间件
 app.use(router.routes())
 app.use(router.allowedMethods())
 
